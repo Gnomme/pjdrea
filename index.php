@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 
-<?php // php yéyé //
+<?php // php yï¿½yï¿½ //
 	$parties = scandir("parties"); //scan les parties
+	$parties = array_slice($parties, 2); //on vire les 2 premiers
 	//chdir("parties"); // se fout dans le bon dir
-	//echo "$parties[2]"; //le nom du fichier brut // ça commence à 2
+	//echo "$parties[2]"; //le nom du fichier brut //
 	
 	$partieNom = $partiePath = [];
 	
 	//LA boucle
-	for ($i = 2; $i < count($parties); $i++) {
-		$partieNom[$i-2] = "$parties[$i]";
-		$partieNom[$i-2] = str_replace("_"," ", $partieNom[$i-2]);
-		$partiePath[$i-2] = "parties/" . "$parties[$i]";
-		//$j = $i-2;
-		//echo "$partieNom[$j]" . " " . "$partiePath[$j]" ;
+	for ($i = 0; $i < count($parties); $i++) {
+		$partieNom[$i] = "$parties[$i]";
+		$partieNom[$i] = str_replace("_"," ", $partieNom[$i]);
+		$partiePath[$i] = "parties/" . "$parties[$i]";
+		
+		//echo "$partieNom[$i]" . " " . "$partiePath[$i]" ;
 	}
 ?>
 
