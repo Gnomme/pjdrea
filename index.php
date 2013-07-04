@@ -4,21 +4,35 @@
 	$parties = scandir("parties"); //scan les parties
 	$parties = array_slice($parties, 2); //on vire les 2 premiers (.. et ... ) qui ne servent pas ici
 	
-	$partieNom = $partiePath = [];
+	$partieNom = $partiePath = $partiePitch = $partieStat = $partieMaster = $partieJoueurs = []; //liste des tables qui contiennent les infos sur les parties
 	
 	//LA boucle
 	for ($i = 0; $i < count($parties); $i++) {
 		$partieNom[$i] = "$parties[$i]"; //le nom du fichier brut //
 		$partieNom[$i] = str_replace("_"," ", $partieNom[$i]); //le nom du fichier propre pour affichage
 		$partiePath[$i] = "parties/" . "$parties[$i]";
-		
-		//to do
+
 		//	ouvrir le pdo sur la bdd de la base
-		//	choper le pitch, le master, les joueurs, (le path vers l'image ?)
-		//	mettre tout ça dans des tables
-		//	fermer le pdo
+		$bdd = "sqlite:" . "$partiePath[$i]" . "/BasePartie.bdd";
+		$c = new PDO($bdd);
 		
-		//echo "$partieNom[$i]" . " " . "$partiePath[$i]"; // pour test
+		//	choper le pitch, le master, les joueurs, etc.
+		foreach ($c->query("select pitch, master_id, finie from info") as $inf){
+			$partiePitch[$i] = $inf['pitch'];
+			$partieStat[$i] = $inf['finie'];
+			$partieMaster[$i] = $inf['master_id'];
+		}
+		
+		$partieJoueurs[$i] = [];
+		$k = $c->query("select nom from joueurs");
+		$joueurs = $k->fetchAll();
+		for ($j = 0; $j < count($joueurs); $j++) { //cette bouble ne marche pas !!!
+			$partieJoueurs[$i][$j] = $joueur[$j];
+		}
+		
+		//	fermer le pdo
+		//echo "$partieNom[$i]"." $partiePath[$i]"." $partiePitch[$i]" ; // pour test
+		$c = NULL;
 	}
 ?>
 
