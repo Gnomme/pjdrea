@@ -24,10 +24,10 @@
 		}
 		
 		$partieJoueurs[$i] = [];
-		$k = $c->query("select nom from joueurs");
-		$joueurs = $k->fetchAll();
-		for ($j = 0; $j < count($joueurs); $j++) { //cette bouble ne marche pas !!!
-			$partieJoueurs[$i][$j] = $joueur[$j];
+		$k = 0;
+		foreach ($c->query("select nom from joueurs") as $j) {
+			$partieJoueurs[$i][$k] = $j['nom'];
+			$k++;
 		}
 		
 		//	fermer le pdo
